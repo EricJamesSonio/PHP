@@ -11,39 +11,43 @@ class Inventory {
 
     function addItem(MenuItem $item, int $quantity) {
         if ($quantity <= 0) {
-            return ;
-            }
+            return;
+        }
 
         $existing = $this->findItem($item->getCode());
 
         if ($existing !== null) {
-            $this->items[$existing]["qty"] += $quantity;
-            return;
+            $this->items[$existing["index"]]["qty"] += $quantity;
+        } else {
+            $this->items[] = ["item" => $item, "qty" => $quantity];
         }
-
-        $this->items[] = ["item" => $item, "qty" => $quantity];
-
     }
 
     function removeItem(int $code) {
         $existing = $this->findItem($code);
-
+                
         if ($existing !== null) {
-            unset($this->items[$existing["index"]]); // remove item
-            $this->items = array_values($this->items);
+            unset($this->items[$existing["index"]]); 
+            $this->items = array_values($this->items); // reindex
         } else {
-        echo "Item not found.\n";
+            echo "Item not found.\n";
         }
     }
-
     
-    function findItem(int $code) {
-        foreach ($this->items as $item) {
+    
+    function findItem(int $code): ?array {
+        foreach ($this->items as $index => $item) {
             if ($item["item"]->getCode() === $code) {
-                return $item; 
+                return ["index" => $index, "data" => $item];
             }
         }
         return null;
+    }
+
+    function displayItems() {
+        foreach ($this->items as $item) {
+            echo ($item["item"]->getDetails());
+        }
     }
 
     function getItems() {
