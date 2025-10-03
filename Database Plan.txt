@@ -1,0 +1,14 @@
+Current Design
+
+Achieving 3NF
+
+[Model]
+StarbucksItem - Parent Item contains All types of item 
+Category - Contains All types of Category (Drinks, Sandwich)
+ItemAttributes - Contains the attributes suchs as cook level etc.
+Subcategory - Contains the items of the Category's item like Drink --> Expresso(sub category)
+
+[Helper]
+Function - Contains the Function for creating database
+Db.php = Database Initialized
+
